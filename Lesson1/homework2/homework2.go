@@ -15,18 +15,17 @@ func producer(ch chan<- int) {
 		time.Sleep(time.Second * 1)
 		fmt.Printf("Produce int value: %d\n", i)
 	}
+	close(ch)
 }
 
 func consumer(ch <-chan int) {
 	for i := range ch {
-		time.Sleep(time.Second * 2)
 		fmt.Printf("Consume int value: %d\n", i)
 	}
 }
 
 func main() {
 	ch := make(chan int, 2)
-	defer close(ch)
 	go producer(ch)
 	consumer(ch)
 }
